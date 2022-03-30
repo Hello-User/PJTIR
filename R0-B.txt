@@ -1,5 +1,6 @@
+Current configuration : 4746 bytes
 !
-! Last configuration change at 14:34:42 UTC Tue Mar 29 2022
+! Last configuration change at 14:25:47 UTC Wed Mar 30 2022
 !
 version 16.9
 service timestamps debug datetime msec
@@ -24,7 +25,7 @@ vrf definition Mgmt-intf
 !
 no aaa new-model
 !
-ip domain name pjtir
+ip domain name PJTIR
 ip admission watch-list expiry-time 0
 !
 !
@@ -92,6 +93,7 @@ spanning-tree extend system-id
 !
 !
 !
+username cisco privilege 15 password 0 cisco
 !
 redundancy
  mode none
@@ -103,8 +105,8 @@ redundancy
 !
 !
 crypto keyring cisco
-  pre-shared-key address ipv6 2000::2B5:0:0:1A/126 key cisco
   pre-shared-key address ipv6 2000::2B5:0:0:22/126 key cisco
+  pre-shared-key address ipv6 2000::2B5:0:0:1A/126 key cisco
 !
 !
 !
@@ -164,6 +166,7 @@ interface GigabitEthernet0/0/2
 interface Serial0/1/0
  no ip address
  shutdown
+ ipv6 address 2000::2B5:0:0:19/126
 !
 interface Serial0/1/1
  no ip address
@@ -181,6 +184,7 @@ ip http authentication local
 ip http secure-server
 ip tftp source-interface GigabitEthernet0
 !
+ip ssh version 2
 !
 ipv6 route ::/0 2000::2B5:0:0:1D
 ipv6 router ospf 1
@@ -199,7 +203,8 @@ line con 0
 line aux 0
  stopbits 1
 line vty 0 4
- login
+ login local
+ transport input ssh
 !
 !
 !
