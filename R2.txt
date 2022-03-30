@@ -1,9 +1,6 @@
-Building configuration...
-
-
-Current configuration : 3737 bytes
+Current configuration : 3902 bytes
 !
-! Last configuration change at 13:52:56 UTC Tue Mar 29 2022
+! Last configuration change at 13:10:34 UTC Wed Mar 30 2022
 !
 version 16.9
 service timestamps debug datetime msec
@@ -46,6 +43,9 @@ subscriber templating
 !
 !
 ipv6 unicast-routing
+ipv6 dhcp pool DHCPPool
+ prefix-delegation pool GLOBAL_POOL
+!
 multilink bundle-name authenticated
 !
 !
@@ -123,13 +123,14 @@ interface GigabitEthernet0/0/0
  no ip address
  negotiation auto
  ipv6 address 2000::2B5:0:0:D/126
- ipv6 ospf 1 area 3
+ ipv6 enable
+ ipv6 dhcp server DHCPPool
+ ipv6 ospf 1 area 1
 !
 interface GigabitEthernet0/0/1
  no ip address
  negotiation auto
  ipv6 address 2000::2B4:0:0:1/80
- ipv6 ospf 1 area 3
 !
 interface GigabitEthernet0/0/2
  no ip address
@@ -152,6 +153,8 @@ ip http secure-server
 ip tftp source-interface GigabitEthernet0
 !
 !
+ipv6 local pool TapHQ 2000::1:0:0:0/80 80
+ipv6 local pool GLOBAL_POOL 2000::/56 60
 ipv6 router ospf 1
  router-id 1.0.0.2
 !
