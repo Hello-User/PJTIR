@@ -1,6 +1,5 @@
-Current configuration : 4521 bytes
 !
-! Last configuration change at 10:54:21 UTC Tue Mar 29 2022
+! Last configuration change at 14:34:42 UTC Tue Mar 29 2022
 !
 version 16.9
 service timestamps debug datetime msec
@@ -25,6 +24,7 @@ vrf definition Mgmt-intf
 !
 no aaa new-model
 !
+ip domain name pjtir
 ip admission watch-list expiry-time 0
 !
 !
@@ -139,6 +139,7 @@ crypto ipsec profile profile0
 interface Tunnel0
  no ip address
  ipv6 address 2000::2B5:0:0:21/126
+ ipv6 ospf 1 area 0
  tunnel source 2000::2B5:0:0:1E
  tunnel mode ipsec ipv6
  tunnel destination 2000::2B5:0:0:1A
@@ -153,6 +154,7 @@ interface GigabitEthernet0/0/1
  no ip address
  negotiation auto
  ipv6 address 2000::2B5:0:0:27/126
+ ipv6 ospf 1 area 2
 !
 interface GigabitEthernet0/0/2
  no ip address
@@ -181,6 +183,9 @@ ip tftp source-interface GigabitEthernet0
 !
 !
 ipv6 route ::/0 2000::2B5:0:0:1D
+ipv6 router ospf 1
+ router-id 2.0.0.0
+!
 !
 !
 !

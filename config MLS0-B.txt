@@ -1,13 +1,15 @@
+Current configuration : 4575 bytes
+!
+! Last configuration change at 12:26:21 UTC Tue Mar 29 2022
+!
+version 16.6
 no service pad
 service timestamps debug datetime msec
 service timestamps log datetime msec
-no service password-encryption
 service compress-config
+no platform punt-keepalive disable-kernel-core
 !
 hostname MLS0-B
-!
-boot-start-marker
-boot-end-marker
 !
 !
 vrf definition Mgmt-vrf
@@ -25,26 +27,42 @@ switch 1 provision ws-c3650-24ts
 !
 !
 !
-!
 ip routing
+!
 !
 !
 !
 ipv6 unicast-routing
 ipv6 multicast-routing
-qos queue-softmax-multiplier 100
+!
+!
+!
+!
+!
+!
+!
 vtp domain BEDRIJFHQ
 vtp mode off
+!
+!
+!
 !
 !
 diagnostic bootup level minimal
 spanning-tree mode rapid-pvst
 spanning-tree extend system-id
-hw-switch switch 1 logging onboard message level 3
+!
 !
 redundancy
  mode sso
 !
+hw-switch switch 1 logging onboard message
+!
+vlan 10
+ name ten
+!
+vlan 20
+ name twenty
 !
 vlan 60
  name Jazzdance
@@ -56,8 +74,41 @@ vlan 669
  name Native
 !
 !
+class-map match-any system-cpp-police-topology-control
+  description Topology control
+class-map match-any system-cpp-police-sw-forward
+  description Sw forwarding, L2 LVX data, LOGGING
+class-map match-any system-cpp-default
+  description DHCP Snooping, EWLC control, EWCL data
+class-map match-any system-cpp-police-sys-data
+  description Learning cache ovfl, Crypto Control, Exception, EGR Exception, NFL SAMPLED DATA, Gold Pkt, RPF Failed
+class-map match-any system-cpp-police-punt-webauth
+  description Punt Webauth
+class-map match-any system-cpp-police-l2lvx-control
+  description L2 LVX control packets
+class-map match-any system-cpp-police-forus
+  description Forus Address resolution and Forus traffic
+class-map match-any system-cpp-police-multicast-end-station
+  description MCAST END STATION
+class-map match-any system-cpp-police-multicast
+  description Transit Traffic and MCAST Data
+class-map match-any system-cpp-police-l2-control
+  description L2 control
+class-map match-any system-cpp-police-dot1x-auth
+  description DOT1X Auth
+class-map match-any system-cpp-police-data
+  description ICMP redirect, ICMP_GEN and BROADCAST
+class-map match-any system-cpp-police-stackwise-virt-control
+  description Stackwise Virtual
 class-map match-any non-client-nrt-class
+class-map match-any system-cpp-police-routing-control
+  description Routing control
+class-map match-any system-cpp-police-protocol-snooping
+  description Protocol snooping
+class-map match-any system-cpp-police-system-critical
+  description System Critical
 !
+policy-map system-cpp-policy
 policy-map port_child_policy
  class non-client-nrt-class
   bandwidth remaining ratio 10
@@ -78,12 +129,15 @@ policy-map port_child_policy
 interface GigabitEthernet0/0
  vrf forwarding Mgmt-vrf
  no ip address
+ shutdown
+ speed 1000
  negotiation auto
 !
 interface GigabitEthernet1/0/1
  no switchport
  no ip address
  ipv6 address 2000::2B5:0:0:26/126
+ ipv6 ospf 1 area 2
 !
 interface GigabitEthernet1/0/2
  switchport mode trunk
@@ -147,6 +201,7 @@ interface Vlan1
 interface Vlan60
  no ip address
  ipv6 address 2000::3C:0:0:1/80
+ ipv6 ospf 1 area 2
 !
 interface Vlan70
  no ip address
@@ -159,15 +214,27 @@ ip http secure-server
 !
 !
 !
+ipv6 router ospf 1
+ router-id 2.1.0.0
 !
 !
+!
+!
+control-plane
+ service-policy input system-cpp-policy
 !
 !
 line con 0
  stopbits 1
 line aux 0
+ stopbits 1
+line vty 0 4
+ login
 line vty 5 15
+ login
 !
+!
+mac address-table notification mac-move
 wsma agent exec
  profile httplistener
  profile httpslistener
@@ -191,5 +258,4 @@ wsma profile listener httplistener
 wsma profile listener httpslistener
  transport https
 !
-ap group default-group
 end

@@ -23,6 +23,7 @@ fhrp version vrrp v3
 !
 !
 !
+no ip domain lookup
 !
 !
 !
@@ -42,8 +43,17 @@ vtp mode off
 !
 !
 diagnostic bootup level minimal
-spanning-tree mode rapid-pvst
+!
+spanning-tree mode mst
 spanning-tree extend system-id
+!
+spanning-tree mst configuration
+ name HQ
+ instance 1 vlan 10
+ instance 2 vlan 20-692
+!
+spanning-tree mst 1 priority 24576
+spanning-tree mst 2 priority 28672
 !
 !
 redundancy
@@ -111,6 +121,7 @@ interface Port-channel1
  no switchport
  no ip address
  ipv6 address 2000::2B5:0:0:15/126
+ ipv6 ospf 1 area 1
 !
 interface GigabitEthernet0/0
  vrf forwarding Mgmt-vrf
@@ -123,11 +134,13 @@ interface GigabitEthernet1/0/1
  no switchport
  no ip address
  ipv6 address 2000::2B5:0:0:3/126
+ ipv6 ospf 1 area 1
 !
 interface GigabitEthernet1/0/2
  no switchport
  no ip address
  ipv6 address 2000::2B5:0:0:E/126
+ ipv6 ospf 1 area 3
 !
 interface GigabitEthernet1/0/3
  switchport mode trunk
@@ -195,9 +208,11 @@ interface Vlan1
 interface Vlan10
  no ip address
  ipv6 address 2000::A:0:0:2/80
+ ipv6 ospf 1 area 1
  vrrp 10 address-family ipv6
   priority 105
   track 1 decrement 15
+  address FE80::10:1 primary
   address 2000::A:0:0:1/80
   exit-vrrp
 !
@@ -206,12 +221,16 @@ interface Vlan20
  ipv6 address 2000::14:0:0:2/80
  vrrp 20 address-family ipv6
   track 1 decrement 15
+  address FE80::20:1 primary
   address 2000::14:0:0:1/80
   exit-vrrp
 !
 interface Vlan30
  no ip address
  ipv6 address 2000::1E:0:0:2/80
+ vrrp 20 address-family ipv6
+  address FE80::20:1 primary
+  exit-vrrp
  vrrp 30 address-family ipv6
   track 1 decrement 15
   address 2000::1E:0:0:1/80
@@ -222,6 +241,7 @@ interface Vlan40
  ipv6 address 2000::28:0:0:2/80
  vrrp 40 address-family ipv6
   track 1 decrement 15
+  address FE80::40:1 primary
   address 2000::28:0:0:1/80
   exit-vrrp
 !
@@ -230,6 +250,7 @@ interface Vlan80
  ipv6 address 2000::50:0:0:2/80
  vrrp 80 address-family ipv6
   track 1 decrement 15
+  address FE80::80:1 primary
   address 2000::50:0:0:1/80
   exit-vrrp
 !
@@ -246,6 +267,7 @@ interface Vlan100
  ipv6 address 2000::64:0:0:2/80
  vrrp 100 address-family ipv6
   track 1 decrement 15
+  address FE80::100:1 primary
   exit-vrrp
 !
 interface Vlan120
@@ -253,6 +275,7 @@ interface Vlan120
  ipv6 address 2000::78:0:0:2/80
  vrrp 120 address-family ipv6
   track 1 decrement 15
+  address FE80::120:1 primary
   address 2000::78:0:0:1/80
   exit-vrrp
 !
@@ -261,6 +284,7 @@ interface Vlan250
  ipv6 address 2000::FA:0:0:2/80
  vrrp 250 address-family ipv6
   track 1 decrement 15
+  address FE80::250:1 primary
   address 2000::FA:0:0:1/80
   exit-vrrp
 !
@@ -269,6 +293,7 @@ interface Vlan251
  ipv6 address 2000::FB:0:0:2/80
  vrrp 251 address-family ipv6
   track 1 decrement 15
+  address FE80::251:1 primary
   address 2000::FB:0:0:1/80
   exit-vrrp
 !
@@ -277,6 +302,7 @@ interface Vlan300
  ipv6 address 2000::12C:0:0:2/80
  vrrp 11 address-family ipv6
   track 1 decrement 15
+  address FE80::300:1 primary
   address 2000::12C:0:0:1/80
   exit-vrrp
 !
@@ -285,6 +311,7 @@ interface Vlan691
  ipv6 address 2000::2B3:0:0:2/80
  vrrp 12 address-family ipv6
   track 1 decrement 15
+  address FE80::691:1 primary
   address 2000::2B3:0:0:1/80
   exit-vrrp
 !
@@ -294,6 +321,7 @@ interface Vlan692
  vrrp 13 address-family ipv6
   priority 105
   track 1 decrement 15
+  address FE80::692:1 primary
   address 2000::2B4:0:0:1/80
   exit-vrrp
 !
@@ -303,6 +331,9 @@ ip http authentication local
 ip http secure-server
 !
 !
+!
+ipv6 router ospf 1
+ router-id 1.1.0.0
 !
 !
 !
