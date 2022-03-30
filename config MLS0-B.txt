@@ -1,6 +1,6 @@
-Current configuration : 4575 bytes
+Current configuration : 5079 bytes
 !
-! Last configuration change at 12:26:21 UTC Tue Mar 29 2022
+! Last configuration change at 13:41:10 UTC Wed Mar 30 2022
 !
 version 16.6
 no service pad
@@ -29,6 +29,7 @@ switch 1 provision ws-c3650-24ts
 !
 ip routing
 !
+ip domain name PJTIR
 !
 !
 !
@@ -52,6 +53,7 @@ diagnostic bootup level minimal
 spanning-tree mode rapid-pvst
 spanning-tree extend system-id
 !
+username cisco privilege 15 password 0 cisco
 !
 redundancy
  mode sso
@@ -64,11 +66,15 @@ vlan 10
 vlan 20
  name twenty
 !
+vlan 50
+!
 vlan 60
  name Jazzdance
 !
 vlan 70
  name Tapdance
+!
+vlan 110,121,253-254
 !
 vlan 669
  name Native
@@ -198,6 +204,10 @@ interface Vlan1
  no ip address
  shutdown
 !
+interface Vlan50
+ no ip address
+ ipv6 address 2000::32:0:0:1/80
+!
 interface Vlan60
  no ip address
  ipv6 address 2000::3C:0:0:1/80
@@ -205,15 +215,30 @@ interface Vlan60
 !
 interface Vlan70
  no ip address
- ipv6 address 2000::2E:0:0:1/80
+ ipv6 address 2000::46:0:0:1/80
+ ipv6 ospf 1 area 2
+!
+interface Vlan110
+ no ip address
+ ipv6 address 2000::6E:0:0:1/80
+!
+interface Vlan121
+ no ip address
+ ipv6 address 2000::79:0:0:1/80
+!
+interface Vlan253
+ no ip address
+ ipv6 address 2000::FD:0:0:1/80
 !
 ip forward-protocol nd
 ip http server
 ip http authentication local
 ip http secure-server
+ip ssh version 2
 !
 !
 !
+ipv6 route ::/0 2000::2B5:0:0:27
 ipv6 router ospf 1
  router-id 2.1.0.0
 !
@@ -225,11 +250,14 @@ control-plane
 !
 !
 line con 0
+ exec-timeout 30 0
+ logging synchronous
  stopbits 1
 line aux 0
  stopbits 1
 line vty 0 4
- login
+ login local
+ transport input ssh
 line vty 5 15
  login
 !
