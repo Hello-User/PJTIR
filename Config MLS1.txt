@@ -154,6 +154,7 @@ interface GigabitEthernet1/0/8
 interface GigabitEthernet1/0/9
 !
 interface GigabitEthernet1/0/10
+ switchport access vlan 10
 !
 interface GigabitEthernet1/0/11
 !
@@ -199,7 +200,6 @@ interface GigabitEthernet1/1/4
 !
 interface Vlan1
  no ip address
- shutdown
 !
 interface Vlan10
  no ip address
@@ -304,12 +304,12 @@ interface Vlan251
 !
 interface Vlan300
  no ip address
- ipv6 address 2000::12C:0:0:1/80
  ipv6 address 2000::12C:0:0:3/80
  vrrp 11 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::300:1 primary
+  address 2000::12C:0:0:1/80
   exit-vrrp
 !
 interface Vlan691
