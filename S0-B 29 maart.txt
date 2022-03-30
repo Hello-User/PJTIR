@@ -1,0 +1,167 @@
+!
+! Last configuration change at 00:03:46 UTC Mon Mar 1 1993
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+system mtu routing 1500
+vtp domain BEDRIJFHQ
+vtp mode off
+!
+!
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-1076633088
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1076633088
+ revocation-check none
+ rsakeypair TP-self-signed-1076633088
+!
+!
+crypto pki certificate chain TP-self-signed-1076633088
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 31303736 36333330 3838301E 170D3933 30333031 30303032
+  32385A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 30373636
+  33333038 3830819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281
+  8100B8BC B7952D67 42778A3C 7E0CE873 075377FC 7BC37217 12F25AF7 BA5F974B
+  40C146D3 762272D4 49CC55BB 7024FD9D 39C77901 89E23DB2 325940FF 0357C178
+  F42BBA61 47BE4A1A 7DEB5DBC 2822BD13 99FE6B3E F7787D33 288B8D47 71CC69D4
+  AAB5E0AA 1482FFF0 46D8C1B1 0750324C 6203DD72 D7FCAE7E B957E8CD F957090E
+  9F0B0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603
+  551D2304 18301680 14345401 35079CAB 0253BEEA 4E2FA1CE 4E1D111E D9301D06
+  03551D0E 04160414 34540135 079CAB02 53BEEA4E 2FA1CE4E 1D111ED9 300D0609
+  2A864886 F70D0101 05050003 81810009 0FC7DD98 4B6D1312 E4A51172 F1F0636B
+  7EA790CC E5AAF746 87CEEA8F 2078E5BA 8817A5B0 6C7AD2BB B2B24982 20ED37BE
+  DE419148 7A4C23AC 9EBB7ECF B5045060 8284771E 1CCB6B5F D5C42D6C C657921E
+  9D668E67 84D1CC9A 43EFD654 240A7614 6A05D907 8047E326 48C58CC7 5F3D2362
+  4872BDEA 88A40DC8 8039C11B E8830B
+        quit
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+vlan 2
+ name quarantaine
+!
+vlan 9
+ name netwerkbeheer
+!
+vlan 10
+ name IT
+!
+vlan 20
+!
+vlan 60
+ name Jazz Branche
+!
+vlan 70
+ name Tap Branche
+!
+vlan 100
+ name nativVLAN
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+ switchport mode trunk
+!
+interface FastEthernet0/2
+ switchport access vlan 60
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/3
+ switchport access vlan 70
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan60
+ no ip address
+!
+interface Vlan70
+ no ip address
+!
+ip http server
+ip http secure-server
+!
+no vstack
+!
+line con 0
+line vty 0 4
+ login
+line vty 5 15
+ login
+!
+end

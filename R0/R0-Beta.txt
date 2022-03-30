@@ -1,0 +1,175 @@
+
+Current configuration : 2288 bytes
+!
+! Last configuration change at 12:29:25 UTC Tue Mar 29 2022
+!
+version 16.7
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+!
+hostname R0
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+license udi pid ISR4331/K9 sn FDO2220083X
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+!
+crypto keyring cisco
+  pre-shared-key address ipv6 2000::2B5:0:0:1E/126 key cisco
+!
+!
+!
+!
+!
+!
+crypto isakmp policy 15
+ encr 3des
+ hash md5
+ authentication pre-share
+ group 2
+ lifetime 43200
+crypto isakmp key cisco address ipv6 2000::2B5:0:0:22/126
+crypto isakmp profile profile1
+   match identity address ipv6 2000::2B5:0:0:21/126
+!
+!
+crypto ipsec transform-set myset0 esp-3des esp-sha-hmac
+ mode tunnel
+!
+!
+crypto ipsec profile profile0
+ set transform-set myset0
+!
+crypto ipsec profile profile1
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Tunnel0
+ no ip address
+ ipv6 address 2000::2B5:0:0:22/126
+ ipv6 enable
+ tunnel source 2000::2B5:0:0:1A
+ tunnel mode ipsec ipv6
+ tunnel destination 2000::2B5:0:0:1E
+ tunnel protection ipsec profile profile0
+!
+interface GigabitEthernet0/0/0
+ no ip address
+ negotiation auto
+ ipv6 address 2000::2B5:0:0:5/126
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ negotiation auto
+ ipv6 address 2000::2B5:0:0:2/126
+!
+interface GigabitEthernet0/0/2
+ no ip address
+ negotiation auto
+!
+interface Serial0/1/0
+ no ip address
+ ipv6 address 2000::2B5:0:0:1A/126
+!
+interface Serial0/1/1
+ no ip address
+!
+interface GigabitEthernet0
+ vrf forwarding Mgmt-intf
+ no ip address
+ negotiation auto
+!
+ip forward-protocol nd
+no ip http server
+ip http secure-server
+ip tftp source-interface GigabitEthernet0
+!
+!
+ipv6 route ::/0 2000::2B5:0:0:19
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ transport input none
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ login
+!
+wsma agent exec
+!
+wsma agent config
+!
+wsma agent filesys
+!
+wsma agent notify
+!
+!
+end

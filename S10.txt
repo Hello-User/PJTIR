@@ -1,0 +1,156 @@
+
+Current configuration : 1997 bytes
+!
+! Last configuration change at 00:54:19 UTC Mon Mar 1 1993
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname S10
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+system mtu routing 1500
+vtp domain HQVTP
+vtp mode off
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+vlan 10
+ name JazzdanceHQ
+!
+vlan 20
+ name TapdanceHQ
+!
+vlan 30
+ name Finance
+!
+vlan 40
+ name ReceptieHQ
+!
+vlan 80
+ name PrintersHQ
+!
+vlan 90
+ name ITManagement
+!
+vlan 100
+ name Management
+!
+vlan 120
+ name VOIPHQ
+!
+vlan 250
+ name AccessPointsHQGasten
+!
+vlan 251
+ name AccessPointsHQMW
+!
+vlan 300
+ name CEO
+!
+vlan 691
+ name Serverspublic
+!
+vlan 692
+ name Servers
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+ switchport access vlan 120
+ switchport mode access
+!
+interface FastEthernet0/2
+ switchport access vlan 90
+ switchport mode access
+!
+interface FastEthernet0/3
+ switchport access vlan 300
+ switchport mode access
+!
+interface FastEthernet0/4
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/5
+ switchport trunk allowed vlan 250,251
+ switchport mode trunk
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+ switchport mode trunk
+!
+interface GigabitEthernet0/2
+ switchport mode trunk
+!
+interface Vlan1
+ no ip address
+!
+ip http server
+ip http secure-server
+!
+no vstack
+!
+line con 0
+line vty 5 15
+!
+end
