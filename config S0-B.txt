@@ -1,5 +1,6 @@
+Current configuration : 3496 bytes
 !
-! Last configuration change at 00:03:46 UTC Mon Mar 1 1993
+! Last configuration change at 01:33:34 UTC Mon Mar 1 1993
 !
 version 15.2
 no service pad
@@ -7,12 +8,13 @@ service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname Switch
+hostname S0-B
 !
 boot-start-marker
 boot-end-marker
 !
 !
+username cisco privilege 15 password 0 cisco
 no aaa new-model
 system mtu routing 1500
 vtp domain BEDRIJFHQ
@@ -24,6 +26,8 @@ vtp mode off
 !
 !
 !
+ip domain-name PJTIR
+ipv6 unicast-routing
 !
 !
 crypto pki trustpoint TP-self-signed-1076633088
@@ -149,18 +153,19 @@ interface Vlan1
 !
 interface Vlan60
  no ip address
-!
-interface Vlan70
- no ip address
+ ipv6 address 2000::3C:0:0:2/80
 !
 ip http server
 ip http secure-server
+ip ssh version 2
+!
 !
 no vstack
 !
 line con 0
 line vty 0 4
- login
+ login local
+ transport input ssh
 line vty 5 15
  login
 !
