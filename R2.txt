@@ -1,8 +1,3 @@
-Current configuration : 3902 bytes
-!
-! Last configuration change at 13:10:34 UTC Wed Mar 30 2022
-!
-version 16.9
 service timestamps debug datetime msec
 service timestamps log datetime msec
 platform qfp utilization monitor load 80
