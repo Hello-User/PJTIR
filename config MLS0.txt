@@ -1,3 +1,8 @@
+Current configuration : 7292 bytes
+!
+! Last configuration change at 13:16:07 UTC Wed Mar 30 2022
+!
+version 16.6
 no service pad
 service timestamps debug datetime msec
 service timestamps log datetime msec
@@ -60,7 +65,7 @@ redundancy
  mode sso
 !
 !
-vlan 10,20,30,40,80,90,100,120,250-251,300,691-692
+vlan 10,20,30,40,60,80,90,100,120,250-251,300,691-692
 !
 vlan 777
  name fu
@@ -75,7 +80,7 @@ class-map match-any system-cpp-police-sw-forward
 class-map match-any system-cpp-default
   description DHCP Snooping, EWLC control, EWCL data
 class-map match-any system-cpp-police-sys-data
-  description Learning cache ovfl, Crypto Control, Exception, EGR Exception, NFL SAMPLED DATA, Gold Pkt, RPF Failed
+  description Learning cache ovfl, Crypto Control, Exception, EGR Exception, NFL                                                                                                              SAMPLED DATA, Gold Pkt, RPF Failed
 class-map match-any system-cpp-police-punt-webauth
   description Punt Webauth
 class-map match-any system-cpp-police-l2lvx-control
@@ -140,7 +145,9 @@ interface GigabitEthernet1/0/2
  no switchport
  no ip address
  ipv6 address 2000::2B5:0:0:E/126
- ipv6 ospf 1 area 3
+ ipv6 address autoconfig default
+ ipv6 dhcp client pd DHCP_prefix
+ ipv6 ospf 1 area 1
 !
 interface GigabitEthernet1/0/3
  switchport mode trunk
@@ -182,6 +189,8 @@ interface GigabitEthernet1/0/20
 interface GigabitEthernet1/0/21
 !
 interface GigabitEthernet1/0/22
+ switchport access vlan 10
+ switchport mode access
 !
 interface GigabitEthernet1/0/23
  no switchport
@@ -208,7 +217,7 @@ interface Vlan1
 interface Vlan10
  no ip address
  ipv6 address 2000::A:0:0:2/80
- ipv6 ospf 1 area 1
+ ipv6 address DHCP_prefix ::A:0:0:4/80
  vrrp 10 address-family ipv6
   priority 105
   track 1 decrement 15
@@ -233,6 +242,7 @@ interface Vlan30
   exit-vrrp
  vrrp 30 address-family ipv6
   track 1 decrement 15
+  address FE80::30:1 primary
   address 2000::1E:0:0:1/80
   exit-vrrp
 !
@@ -259,6 +269,7 @@ interface Vlan90
  ipv6 address 2000::5A:0:0:2/80
  vrrp 90 address-family ipv6
   track 1 decrement 15
+  address FE80::90:1 primary
   address 2000::5E:0:0:1/80
   exit-vrrp
 !
@@ -268,6 +279,12 @@ interface Vlan100
  vrrp 100 address-family ipv6
   track 1 decrement 15
   address FE80::100:1 primary
+  address 2000::64:0:0:1/80
+  exit-vrrp
+!
+interface Vlan110
+ no ip address
+ vrrp 110 address-family ipv6
   exit-vrrp
 !
 interface Vlan120
