@@ -20,6 +20,7 @@ vrf definition Mgmt-intf
 !
 no aaa new-model
 !
+ip domain name PJTIR
 ip admission watch-list expiry-time 0
 !
 !
@@ -90,6 +91,7 @@ spanning-tree extend system-id
 !
 !
 !
+username cisco privilege 15 password 0 cisco
 !
 redundancy
  mode none
@@ -147,6 +149,7 @@ no ip http server
 ip http secure-server
 ip tftp source-interface GigabitEthernet0
 !
+ip ssh version 2
 !
 ipv6 local pool TapHQ 2000::1:0:0:0/80 80
 ipv6 local pool GLOBAL_POOL 2000::/56 60
@@ -166,7 +169,8 @@ line con 0
 line aux 0
  stopbits 1
 line vty 0 4
- login
+ login local
+ transport input ssh
 !
 !
 !
