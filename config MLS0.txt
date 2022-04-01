@@ -1,6 +1,6 @@
-Current configuration : 7292 bytes
+Current configuration : 7566 bytes
 !
-! Last configuration change at 13:16:07 UTC Wed Mar 30 2022
+! Last configuration change at 12:47:31 UTC Fri Apr 1 2022
 !
 version 16.6
 no service pad
@@ -80,7 +80,7 @@ class-map match-any system-cpp-police-sw-forward
 class-map match-any system-cpp-default
   description DHCP Snooping, EWLC control, EWCL data
 class-map match-any system-cpp-police-sys-data
-  description Learning cache ovfl, Crypto Control, Exception, EGR Exception, NFL                                                                                                              SAMPLED DATA, Gold Pkt, RPF Failed
+  description Learning cache ovfl, Crypto Control, Exception, EGR Exception, NFL                                                                                                              SAMPLED DATA, Gold Pkt,
 class-map match-any system-cpp-police-punt-webauth
   description Punt Webauth
 class-map match-any system-cpp-police-l2lvx-control
@@ -151,6 +151,7 @@ interface GigabitEthernet1/0/2
 !
 interface GigabitEthernet1/0/3
  switchport mode trunk
+ ipv6 traffic-filter JazzHQ in
 !
 interface GigabitEthernet1/0/4
 !
@@ -349,11 +350,17 @@ ip http secure-server
 !
 !
 !
+ipv6 route ::/0 2000::2B5:0:0:2
 ipv6 router ospf 1
  router-id 1.1.0.0
 !
 !
 !
+!
+ipv6 access-list JazzHQ
+ permit icmp 2000::A:0:0:0/80 2000::3C:0:0:0/80
+ deny icmp any any
+ permit ipv6 any any
 !
 control-plane
  service-policy input system-cpp-policy
