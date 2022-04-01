@@ -1,6 +1,6 @@
-Current configuration : 3496 bytes
+Current configuration : 3424 bytes
 !
-! Last configuration change at 01:33:34 UTC Mon Mar 1 1993
+! Last configuration change at 03:02:12 UTC Mon Mar 1 1993
 !
 version 15.2
 no service pad
@@ -27,7 +27,6 @@ vtp mode off
 !
 !
 ip domain-name PJTIR
-ipv6 unicast-routing
 !
 !
 crypto pki trustpoint TP-self-signed-1076633088
@@ -58,7 +57,8 @@ crypto pki certificate chain TP-self-signed-1076633088
   9D668E67 84D1CC9A 43EFD654 240A7614 6A05D907 8047E326 48C58CC7 5F3D2362
   4872BDEA 88A40DC8 8039C11B E8830B
         quit
-spanning-tree mode pvst
+!
+spanning-tree mode mst
 spanning-tree extend system-id
 !
 vlan internal allocation policy ascending
@@ -79,9 +79,6 @@ vlan 60
 !
 vlan 70
  name Tap Branche
-!
-vlan 100
- name nativVLAN
 !
 !
 !
@@ -148,17 +145,16 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
 !
 interface Vlan1
- no ip address
- shutdown
 !
 interface Vlan60
  no ip address
- ipv6 address 2000::3C:0:0:2/80
+!
+interface Vlan70
+ no ip address
 !
 ip http server
 ip http secure-server
 ip ssh version 2
-!
 !
 no vstack
 !
