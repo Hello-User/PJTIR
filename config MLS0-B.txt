@@ -1,6 +1,6 @@
-Current configuration : 5079 bytes
+Current configuration : 5185 bytes
 !
-! Last configuration change at 13:41:10 UTC Wed Mar 30 2022
+! Last configuration change at 10:06:06 UTC Fri Apr 1 2022
 !
 version 16.6
 no service pad
@@ -50,8 +50,16 @@ vtp mode off
 !
 !
 diagnostic bootup level minimal
-spanning-tree mode rapid-pvst
+!
+spanning-tree mode mst
 spanning-tree extend system-id
+!
+spanning-tree mst configuration
+ name Branche
+ instance 1 vlan 50-110
+ instance 2 vlan 111-254
+!
+spanning-tree mst 1-2 priority 28672
 !
 username cisco privilege 15 password 0 cisco
 !
@@ -75,9 +83,6 @@ vlan 70
  name Tapdance
 !
 vlan 110,121,253-254
-!
-vlan 669
- name Native
 !
 !
 class-map match-any system-cpp-police-topology-control
