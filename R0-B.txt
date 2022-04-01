@@ -1,6 +1,6 @@
-Current configuration : 4746 bytes
+Current configuration : 4745 bytes
 !
-! Last configuration change at 14:25:47 UTC Wed Mar 30 2022
+! Last configuration change at 10:44:43 UTC Fri Apr 1 2022
 !
 version 16.9
 service timestamps debug datetime msec
@@ -105,8 +105,8 @@ redundancy
 !
 !
 crypto keyring cisco
-  pre-shared-key address ipv6 2000::2B5:0:0:22/126 key cisco
   pre-shared-key address ipv6 2000::2B5:0:0:1A/126 key cisco
+  pre-shared-key address ipv6 2000::2B5:0:0:22/126 key cisco
 !
 !
 !
