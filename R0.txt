@@ -1,3 +1,12 @@
+Current configuration : 2524 bytes
+!
+! Last configuration change at 10:54:41 UTC Fri Apr 1 2022
+!
+version 16.7
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
 !
 hostname R0
 !
@@ -16,6 +25,7 @@ vrf definition Mgmt-intf
 !
 no aaa new-model
 !
+no ip domain lookup
 ip domain name pjtir
 !
 !
@@ -175,3 +185,4 @@ wsma agent notify
 !
 !
 end
+
