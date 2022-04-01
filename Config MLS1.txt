@@ -1,3 +1,8 @@
+Current configuration : 7089 bytes
+!
+! Last configuration change at 05:11:17 UTC Fri Apr 1 2022
+!
+version 16.6
 no service pad
 service timestamps debug datetime msec
 service timestamps log datetime msec
@@ -50,8 +55,8 @@ spanning-tree extend system-id
 !
 spanning-tree mst configuration
  name HQ
- instance 1 vlan 10
- instance 2 vlan 20-692
+ instance 1 vlan 10-90
+ instance 2 vlan 91-692
 !
 spanning-tree mst 1 priority 28672
 spanning-tree mst 2 priority 24576
@@ -200,6 +205,7 @@ interface GigabitEthernet1/1/4
 !
 interface Vlan1
  no ip address
+ shutdown
 !
 interface Vlan10
  no ip address
@@ -371,4 +377,3 @@ wsma agent notify
 !
 !
 end
-
