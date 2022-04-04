@@ -1,6 +1,6 @@
-Current configuration : 7089 bytes
+Current configuration : 7239 bytes
 !
-! Last configuration change at 05:11:17 UTC Fri Apr 1 2022
+! Last configuration change at 05:47:59 UTC Mon Apr 4 2022
 !
 version 16.6
 no service pad
@@ -30,6 +30,7 @@ fhrp version vrrp v3
 ip routing
 !
 no ip domain lookup
+ip domain name PJTIR
 !
 !
 !
@@ -61,6 +62,7 @@ spanning-tree mst configuration
 spanning-tree mst 1 priority 28672
 spanning-tree mst 2 priority 24576
 !
+username cisco privilege 15 password 0 cisco
 !
 redundancy
  mode sso
@@ -188,12 +190,14 @@ interface GigabitEthernet1/0/22
 interface GigabitEthernet1/0/23
  no switchport
  no ip address
- channel-group 1 mode desirable
+ channel-protocol lacp
+ channel-group 1 mode active
 !
 interface GigabitEthernet1/0/24
  no switchport
  no ip address
- channel-group 1 mode desirable
+ channel-protocol lacp
+ channel-group 1 mode active
 !
 interface GigabitEthernet1/1/1
 !
@@ -341,6 +345,7 @@ ip forward-protocol nd
 ip http server
 ip http authentication local
 ip http secure-server
+ip ssh version 2
 !
 !
 !
@@ -361,7 +366,8 @@ line con 0
 line aux 0
  stopbits 1
 line vty 0 4
- login
+ login local
+ transport input ssh
 line vty 5 15
  login
 !
