@@ -1,6 +1,8 @@
-Current configuration : 3507 bytes
+Building configuration...
+
+Current configuration : 3453 bytes
 !
-! Last configuration change at 05:26:56 UTC Mon Mar 1 1993
+! Last configuration change at 00:16:16 UTC Mon Mar 1 1993
 !
 version 15.2
 no service pad
@@ -147,27 +149,23 @@ interface GigabitEthernet0/2
 !
 interface Vlan1
  no ip address
- shutdown
 !
 interface Vlan60
  no ip address
- ipv6 address 2000::3C:0:0:0:FFFE/64
+ ipv6 address 2000:0:0:3C::FFFE/64
 !
 interface Vlan90
  no ip address
-
 !
 ip http server
 ip http secure-server
-ip ssh version 2
 !
 !
 no vstack
 !
 line con 0
 line vty 0 4
- login local
- transport input ssh
+ login
 line vty 5 15
  login
 !
