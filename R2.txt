@@ -163,6 +163,12 @@ ipv6 router ospf 1
 !
 !
 !
+!
+!
+snmp-server community pjtir_rw RW
+snmp-server community pjtir_ro RO
+!
+!
 ipv6 access-list SNMPtest
  permit ipv6 2000::/80 any
 !
