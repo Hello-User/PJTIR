@@ -151,7 +151,7 @@ interface Vlan1
 !
 interface Vlan60
  no ip address
- ipv6 address 2000::3C:0:0:FFFE/80
+ ipv6 address 2000::3C:0:0::FFFE/64
 !
 interface Vlan90
  no ip address

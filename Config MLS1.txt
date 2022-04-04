@@ -213,133 +213,133 @@ interface Vlan1
 !
 interface Vlan10
  no ip address
- ipv6 address 2000::A:0:0:3/80
+ ipv6 address 2000::A:0:0:0:3/64
  ipv6 ospf 1 area 1
  vrrp 10 address-family ipv6
   track 1 decrement 15
   address FE80::10:1 primary
-  address 2000::A:0:0:1/80
+  address 2000::A:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan20
  no ip address
- ipv6 address 2000::14:0:0:3/80
+ ipv6 address 2000::14:0:0:0:3/64
  vrrp 20 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::20:1 primary
-  address 2000::14:0:0:1/80
+  address 2000::14:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan30
  no ip address
- ipv6 address 2000::1E:0:0:3/80
+ ipv6 address 2000::1E:0:0:0:3/64
  vrrp 30 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::30:1 primary
-  address 2000::1E:0:0:1/80
+  address 2000::1E:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan40
  no ip address
- ipv6 address 2000::28:0:0:3/80
+ ipv6 address 2000::28:0:0:0:3/64
  vrrp 40 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::40:1 primary
-  address 2000::28:0:0:1/80
+  address 2000::28:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan80
  no ip address
- ipv6 address 2000::50:0:0:3/80
+ ipv6 address 2000::50:0:0:0:3/64
  vrrp 80 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::80:1 primary
-  address 2000::50:0:0:1/80
+  address 2000::50:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan90
  no ip address
- ipv6 address 2000::5A:0:0:3/80
+ ipv6 address 2000::5A:0:0:0:3/64
  ipv6 ospf 1 area 1
  vrrp 90 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::90:1 primary
-  address 2000::5A:0:0:1/80
+  address 2000::5A:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan100
  no ip address
- ipv6 address 2000::64:0:0:3/80
+ ipv6 address 2000::64:0:0:0:3/64
  vrrp 100 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::100:1 primary
-  address 2000::64:0:0:1/80
+  address 2000::64:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan120
  no ip address
- ipv6 address 2000::78:0:0:3/80
+ ipv6 address 2000::78:0:0:0:3/64
  vrrp 120 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::120:1 primary
-  address 2000::78:0:0:1/80
+  address 2000::78:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan250
  no ip address
- ipv6 address 2000::FA:0:0:3/80
+ ipv6 address 2000::FA:0:0:0:3/64
  vrrp 250 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::250:1 primary
-  address 2000::FA:0:0:1/80
+  address 2000::FA:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan251
  no ip address
- ipv6 address 2000::FB:0:0:3/80
+ ipv6 address 2000::FB:0:0:0:3/64
  vrrp 251 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::251:1 primary
-  address 2000::FB:0:0:1/80
+  address 2000::FB:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan300
  no ip address
- ipv6 address 2000::12C:0:0:3/80
+ ipv6 address 2000::12C:0:0:0:3/64
  ipv6 ospf 1 area 1
  vrrp 11 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::300:1 primary
-  address 2000::12C:0:0:1/80
+  address 2000::12C:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan691
  no ip address
- ipv6 address 2000::2B3:0:0:3/80
+ ipv6 address 2000::2B3:0:0:0:3/64
  vrrp 12 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::691:1 primary
-  address 2000::2B3:0:0:1/80
+  address 2000::2B3:0:0:0:1/64
   exit-vrrp
 !
 interface Vlan692
  no ip address
- ipv6 address 2000::2B4:0:0:3/80
+ ipv6 address 2000::2B4:0:0:0:3/64
  vrrp 13 address-family ipv6
   track 1 decrement 15
   address FE80::692:1 primary
-  address 2000::2B4:0:0:1/80
+  address 2000::2B4:0:0:0:1/64
   exit-vrrp
 !
 ip forward-protocol nd

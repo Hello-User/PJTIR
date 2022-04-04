@@ -151,7 +151,7 @@ ip http secure-server
 ip tftp source-interface GigabitEthernet0
 !
 !
-ipv6 route 2000::46:0:0:0/80 2000::2B5:0:0:1E
+ipv6 route 2000::46:0:0:0:0/64 2000::2B5:0:0:1E
 ipv6 route 2000::/56 2000::2B5:0:0:1A
 !
 !

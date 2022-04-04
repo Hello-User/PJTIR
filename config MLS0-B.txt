@@ -211,17 +211,17 @@ interface Vlan1
 !
 interface Vlan50
  no ip address
- ipv6 address 2000::32:0:0:1/80
+ ipv6 address 2000::32:0:0:0:1/64
  ipv6 ospf 1 area 2
 !
 interface Vlan60
  no ip address
- ipv6 address 2000::3C:0:0:1/80
+ ipv6 address 2000::3C:0:0:0:1/64
  ipv6 ospf 1 area 2
 !
 interface Vlan70
  no ip address
- ipv6 address 2000::46:0:0:1/80
+ ipv6 address 2000::46:0:0:0:1/64
  ipv6 ospf 1 area 2
 !
 interface Vlan90
@@ -229,17 +229,17 @@ interface Vlan90
 !
 interface Vlan110
  no ip address
- ipv6 address 2000::6E:0:0:1/80
+ ipv6 address 2000::6E:0:0:0:1/64
  ipv6 ospf 1 area 2
 !
 interface Vlan121
  no ip address
- ipv6 address 2000::79:0:0:1/80
+ ipv6 address 2000::79:0:0:0:1/64
  ipv6 ospf 1 area 2
 !
 interface Vlan253
  no ip address
- ipv6 address 2000::FD:0:0:1/80
+ ipv6 address 2000::FD:0:0:0:1/64
  ipv6 ospf 1 area 2
 !
 ip forward-protocol nd

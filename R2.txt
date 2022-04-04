@@ -43,15 +43,6 @@ subscriber templating
 !
 !
 ipv6 unicast-routing
-ipv6 dhcp pool DHCPPool
- prefix-delegation pool GLOBAL_POOL
-!
-ipv6 dhcp pool pool1
- prefix-delegation pool pool1 lifetime 1800 60
- domain-name PJTIR
-!
-ipv6 dhcp pool testpool
- prefix-delegation pool testpool lifetime 1800 600
 !
 multilink bundle-name authenticated
 !
@@ -132,7 +123,6 @@ interface GigabitEthernet0/0/0
  negotiation auto
  ipv6 address 2000::2B5:0:0:D/126
  ipv6 enable
- ipv6 dhcp server testpool
  ipv6 ospf 1 area 1
 !
 interface GigabitEthernet0/0/1

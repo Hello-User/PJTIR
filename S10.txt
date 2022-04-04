@@ -194,7 +194,7 @@ interface Vlan20
 !
 interface Vlan90
  no ip address
- ipv6 address 2000::5A:0:0:FFFE/80
+ ipv6 address 2000::5A:0:0:0:FFFE/64
 !
 ip http server
 ip http secure-server
