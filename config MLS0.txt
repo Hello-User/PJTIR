@@ -1,6 +1,6 @@
-Current configuration : 7717 bytes
+
 !
-! Last configuration change at 13:53:52 UTC Mon Apr 4 2022
+! Last configuration change at 20:18:56 UTC Mon Apr 4 2022
 !
 version 16.6
 no service pad
@@ -29,6 +29,7 @@ fhrp version vrrp v3
 !
 !
 no ip domain lookup
+ip domain name PJTIR
 !
 !
 !
@@ -60,6 +61,7 @@ spanning-tree mst configuration
 spanning-tree mst 1 priority 24576
 spanning-tree mst 2 priority 28672
 !
+username cisco privilege 15 password 0 cisco
 !
 redundancy
  mode sso
@@ -123,10 +125,6 @@ policy-map system-cpp-policy
 !
 !
 interface Port-channel1
- no switchport
- no ip address
- ipv6 address 2000::2B5:0:0:15/126
- ipv6 ospf 1 area 1
 !
 interface GigabitEthernet0/0
  vrf forwarding Mgmt-vrf
@@ -195,13 +193,11 @@ interface GigabitEthernet1/0/23
  no switchport
  no ip address
  channel-protocol lacp
- channel-group 1 mode active
 !
 interface GigabitEthernet1/0/24
  no switchport
  no ip address
  channel-protocol lacp
- channel-group 1 mode active
 !
 interface GigabitEthernet1/1/1
 !
@@ -217,136 +213,152 @@ interface Vlan1
 !
 interface Vlan10
  no ip address
- ipv6 address 2000::A:0:0:0:2/64
- ipv6 address autoconfig default
+ ipv6 address 2000:0:0:A::2/64
+ ipv6 address autoconfig
+ ipv6 dhcp relay destination 2000::2B5:0:0:D
+ ipv6 ospf 1 area 1
  vrrp 10 address-family ipv6
   priority 105
   track 1 decrement 15
   address FE80::10:1 primary
-  address 2000::A:0:0:0:1/64
+  address 2000:0:0:A::1/64
   exit-vrrp
 !
 interface Vlan20
  no ip address
- ipv6 address 2000::14:0:0:0:2/64
+ ipv6 address 2000:0:0:14::2/64
+ ipv6 address autoconfig
+ ipv6 ospf 1 area 1
  vrrp 20 address-family ipv6
   track 1 decrement 15
   address FE80::20:1 primary
-  address 2000::14:0:0:0:1/64
+  address 2000:0:0:14::1/64
   exit-vrrp
 !
 interface Vlan30
  no ip address
- ipv6 address 2000::1E:0:0:0:2/64
+ ipv6 address 2000:0:0:1E::2/64
+ ipv6 address autoconfig
+ ipv6 ospf 1 area 1
  vrrp 20 address-family ipv6
   address FE80::20:1 primary
   exit-vrrp
  vrrp 30 address-family ipv6
   track 1 decrement 15
   address FE80::30:1 primary
-  address 2000::1E:0:0:0:1/64
+  address 2000:0:0:1E::1/64
   exit-vrrp
 !
 interface Vlan40
  no ip address
- ipv6 address 2000::28:0:0:0:2/64
+ ipv6 address 2000:0:0:28::2/64
+ ipv6 address autoconfig
+ ipv6 ospf 1 area 1
  vrrp 40 address-family ipv6
   track 1 decrement 15
   address FE80::40:1 primary
-  address 2000::28:0:0:0:1/64
+  address 2000:0:0:28::1/64
   exit-vrrp
 !
 interface Vlan80
  no ip address
- ipv6 address 2000::50:0:0:0:2/64
+ ipv6 address 2000:0:0:50::2/64
+ ipv6 address autoconfig
+ ipv6 ospf 1 area 1
  vrrp 80 address-family ipv6
   track 1 decrement 15
   address FE80::80:1 primary
-  address 2000::50:0:0:0:1/64
+  address 2000:0:0:50::1/64
   exit-vrrp
 !
 interface Vlan90
  no ip address
- ipv6 address 2000::5A:0:0:0:2/64
+ ipv6 address 2000:0:0:5A::2/64
+ ipv6 address autoconfig
+ ipv6 ospf 1 area 1
  vrrp 90 address-family ipv6
   track 1 decrement 15
   address FE80::90:1 primary
-  address 2000::5A:0:0:0:1/64
+  address 2000:0:0:5A::1/64
   exit-vrrp
 !
 interface Vlan100
  no ip address
- ipv6 address 2000::64:0:0:0:2/64
+ ipv6 address 2000:0:0:64::2/64
+ ipv6 address autoconfig
+ ipv6 ospf 1 area 1
  vrrp 100 address-family ipv6
   track 1 decrement 15
   address FE80::100:1 primary
-  address 2000::64:0:0:0:1/64
+  address 2000:0:0:64::1/64
   exit-vrrp
 !
 interface Vlan110
  no ip address
+ ipv6 address autoconfig
  vrrp 110 address-family ipv6
   exit-vrrp
 !
 interface Vlan120
  no ip address
- ipv6 address 2000::78:0:0:0:2/64
+ ipv6 address 2000:0:0:78::2/64
+ ipv6 address autoconfig
+ ipv6 ospf 1 area 1
  vrrp 120 address-family ipv6
   track 1 decrement 15
   address FE80::120:1 primary
-  address 2000::78:0:0:0:1/64
+  address 2000:0:0:78::1/64
   exit-vrrp
 !
 interface Vlan250
  no ip address
- ipv6 address 2000::FA:0:0:0:2/64
+ ipv6 address 2000:0:0:FA::2/64
+ ipv6 address autoconfig
+ ipv6 ospf 1 area 1
  vrrp 250 address-family ipv6
   track 1 decrement 15
   address FE80::250:1 primary
-  address 2000::FA:0:0:0:1/64
+  address 2000:0:0:FA::1/64
   exit-vrrp
 !
 interface Vlan251
  no ip address
- ipv6 address 2000::FB:0:0:0:2/64
+ ipv6 address 2000:0:0:FB::2/64
+ ipv6 address autoconfig
+ ipv6 ospf 1 area 1
  vrrp 251 address-family ipv6
   track 1 decrement 15
   address FE80::251:1 primary
-  address 2000::FB:0:0:0:1/64
+  address 2000:0:0:FB::1/64
   exit-vrrp
 !
 interface Vlan300
  no ip address
- ipv6 address 2000::12C:0:0:0:2/64
+ ipv6 address 2000:0:0:12C::2/64
+ ipv6 address autoconfig
+ ipv6 ospf 1 area 1
  vrrp 11 address-family ipv6
   track 1 decrement 15
   address FE80::300:1 primary
-  address 2000::12C:0:0:0:1/64
+  address 2000:0:0:12C::1/64
   exit-vrrp
 !
 interface Vlan691
  no ip address
- ipv6 address 2000::2B3:0:0:0:2/64
+ ipv6 address 2000:0:0:2B3::2/64
+ ipv6 address autoconfig
+ ipv6 ospf 1 area 1
  vrrp 12 address-family ipv6
   track 1 decrement 15
   address FE80::691:1 primary
-  address 2000::2B3:0:0:0:1/64
-  exit-vrrp
-!
-interface Vlan692
- no ip address
- ipv6 address 2000::2B4:0:0:0:2/64
- vrrp 13 address-family ipv6
-  priority 105
-  track 1 decrement 15
-  address FE80::692:1 primary
-  address 2000::2B4:0:0:0:1/64
+  address 2000:0:0:2B3::1/64
   exit-vrrp
 !
 ip forward-protocol nd
 ip http server
 ip http authentication local
 ip http secure-server
+ip ssh version 2
 !
 !
 !
@@ -358,8 +370,8 @@ ipv6 router ospf 1
 !
 !
 ipv6 access-list JazzHQ
- permit icmp 2000::A:0:0:0:0/64 2000::3C:0:0:0:0/64
- sequence 40 permit ipv6 2000::5A:0:0:0:0/64 2000::/64
+ permit icmp 2000:0:0:A::/64 2000:0:0:3C::/64
+ sequence 40 permit ipv6 2000:0:0:5A::/64 2000::/64
  permit icmp 2000::/64 2110::/64
 !
 control-plane
@@ -373,7 +385,8 @@ line con 0
 line aux 0
  stopbits 1
 line vty 0 4
- login
+ login local
+ transport input ssh
 line vty 5 15
  login
 !
