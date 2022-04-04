@@ -1,6 +1,6 @@
-Current configuration : 7566 bytes
+Current configuration : 7717 bytes
 !
-! Last configuration change at 12:47:31 UTC Fri Apr 1 2022
+! Last configuration change at 13:53:52 UTC Mon Apr 4 2022
 !
 version 16.6
 no service pad
@@ -145,19 +145,25 @@ interface GigabitEthernet1/0/2
  no switchport
  no ip address
  ipv6 address 2000::2B5:0:0:E/126
- ipv6 address autoconfig default
- ipv6 dhcp client pd DHCP_prefix
+ ipv6 enable
  ipv6 ospf 1 area 1
 !
 interface GigabitEthernet1/0/3
  switchport mode trunk
- ipv6 traffic-filter JazzHQ in
 !
 interface GigabitEthernet1/0/4
 !
 interface GigabitEthernet1/0/5
+ no switchport
+ no ip address
+ ipv6 address 2000:0:0:2B7::1/64
+ ipv6 enable
 !
 interface GigabitEthernet1/0/6
+ no switchport
+ no ip address
+ ipv6 address test-prefix ::1:1/126
+ ipv6 enable
 !
 interface GigabitEthernet1/0/7
 !
@@ -196,12 +202,14 @@ interface GigabitEthernet1/0/22
 interface GigabitEthernet1/0/23
  no switchport
  no ip address
- channel-group 1 mode desirable
+ channel-protocol lacp
+ channel-group 1 mode active
 !
 interface GigabitEthernet1/0/24
  no switchport
  no ip address
- channel-group 1 mode desirable
+ channel-protocol lacp
+ channel-group 1 mode active
 !
 interface GigabitEthernet1/1/1
 !
@@ -218,7 +226,7 @@ interface Vlan1
 interface Vlan10
  no ip address
  ipv6 address 2000::A:0:0:2/80
- ipv6 address DHCP_prefix ::A:0:0:4/80
+ ipv6 address autoconfig default
  vrrp 10 address-family ipv6
   priority 105
   track 1 decrement 15
@@ -271,7 +279,7 @@ interface Vlan90
  vrrp 90 address-family ipv6
   track 1 decrement 15
   address FE80::90:1 primary
-  address 2000::5E:0:0:1/80
+  address 2000::5A:0:0:1/80
   exit-vrrp
 !
 interface Vlan100
@@ -332,6 +340,9 @@ interface Vlan691
   address FE80::691:1 primary
   address 2000::2B3:0:0:1/80
   exit-vrrp
+ --More--
+*Apr  4 15:26:37.620: IPv6 DHCP: Source Address from SAS FE80::2EA:BDFF:FE5A:8E46
+*Apr  4 15:26:37.621: IPv6 DHCP: IPv6 not ready on GigabitEthernet1/0/5, message not sent
 !
 interface Vlan692
  no ip address
@@ -359,8 +370,8 @@ ipv6 router ospf 1
 !
 ipv6 access-list JazzHQ
  permit icmp 2000::A:0:0:0/80 2000::3C:0:0:0/80
- deny icmp any any
- permit ipv6 any any
+ sequence 40 permit ipv6 2000::5A:0:0:0/80 2000::/64
+ permit icmp 2000::/64 2110::/64
 !
 control-plane
  service-policy input system-cpp-policy
