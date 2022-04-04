@@ -1,6 +1,6 @@
-Current configuration : 7239 bytes
+Current configuration : 7455 bytes
 !
-! Last configuration change at 05:47:59 UTC Mon Apr 4 2022
+! Last configuration change at 12:37:06 UTC Mon Apr 4 2022
 !
 version 16.6
 no service pad
@@ -234,12 +234,10 @@ interface Vlan20
 interface Vlan30
  no ip address
  ipv6 address 2000::1E:0:0:3/80
- vrrp 20 address-family ipv6
-  address FE80::20:1 primary
-  exit-vrrp
  vrrp 30 address-family ipv6
   priority 105
   track 1 decrement 15
+  address FE80::30:1 primary
   address 2000::1E:0:0:1/80
   exit-vrrp
 !
@@ -266,9 +264,11 @@ interface Vlan80
 interface Vlan90
  no ip address
  ipv6 address 2000::5A:0:0:3/80
+ ipv6 ospf 1 area 1
  vrrp 90 address-family ipv6
   priority 105
   track 1 decrement 15
+  address FE80::90:1 primary
   address 2000::5A:0:0:1/80
   exit-vrrp
 !
@@ -315,6 +315,7 @@ interface Vlan251
 interface Vlan300
  no ip address
  ipv6 address 2000::12C:0:0:3/80
+ ipv6 ospf 1 area 1
  vrrp 11 address-family ipv6
   priority 105
   track 1 decrement 15
@@ -354,6 +355,12 @@ ipv6 router ospf 1
 !
 !
 !
+!
+ipv6 access-list JazzHQ
+ permit icmp 2000::A:0:0:0/80 2000::3C:0:0:0/80
+ permit icmp 2000::A:0:0:0/80 2110::/64
+ permit ipv6 2000::5A:0:0:0/80 2000::/64
+ permit icmp 2000::/64 2110::/64
 !
 control-plane
  service-policy input system-cpp-policy
