@@ -1,15 +1,14 @@
-Current configuration : 5185 bytes
+Current configuration : 7717 bytes
 !
-! Last configuration change at 10:06:06 UTC Fri Apr 1 2022
+! Last configuration change at 13:53:52 UTC Mon Apr 4 2022
 !
 version 16.6
 no service pad
 service timestamps debug datetime msec
 service timestamps log datetime msec
-service compress-config
 no platform punt-keepalive disable-kernel-core
 !
-hostname MLS0-B
+hostname MLS0
 !
 !
 vrf definition Mgmt-vrf
@@ -23,18 +22,17 @@ vrf definition Mgmt-vrf
 !
 no aaa new-model
 switch 1 provision ws-c3650-24ts
+fhrp version vrrp v3
 !
 !
 !
 !
-ip routing
 !
-ip domain name PJTIR
+no ip domain lookup
 !
 !
 !
 ipv6 unicast-routing
-ipv6 multicast-routing
 !
 !
 !
@@ -42,7 +40,7 @@ ipv6 multicast-routing
 !
 !
 !
-vtp domain BEDRIJFHQ
+vtp domain HQVTP
 vtp mode off
 !
 !
@@ -55,34 +53,24 @@ spanning-tree mode mst
 spanning-tree extend system-id
 !
 spanning-tree mst configuration
- name Branche
- instance 1 vlan 50-110
- instance 2 vlan 111-254
+ name HQ
+ instance 1 vlan 10
+ instance 2 vlan 20-692
 !
-spanning-tree mst 1-2 priority 28672
+spanning-tree mst 1 priority 24576
+spanning-tree mst 2 priority 28672
 !
-username cisco privilege 15 password 0 cisco
 !
 redundancy
  mode sso
 !
-hw-switch switch 1 logging onboard message
 !
-vlan 10
- name ten
+vlan 10,20,30,40,60,80,90,100,120,250-251,300,691-692
 !
-vlan 20
- name twenty
+vlan 777
+ name fu
 !
-vlan 50
-!
-vlan 60
- name Jazzdance
-!
-vlan 70
- name Tapdance
-!
-vlan 110,121,253-254
+track 1 interface GigabitEthernet1/0/1 line-protocol
 !
 !
 class-map match-any system-cpp-police-topology-control
@@ -92,7 +80,7 @@ class-map match-any system-cpp-police-sw-forward
 class-map match-any system-cpp-default
   description DHCP Snooping, EWLC control, EWCL data
 class-map match-any system-cpp-police-sys-data
-  description Learning cache ovfl, Crypto Control, Exception, EGR Exception, NFL SAMPLED DATA, Gold Pkt, RPF Failed
+  description Learning cache ovfl, Crypto Control, Exception, EGR Exception, NFL                                                                                                              SAMPLED DATA, Gold Pkt,
 class-map match-any system-cpp-police-punt-webauth
   description Punt Webauth
 class-map match-any system-cpp-police-l2lvx-control
@@ -120,9 +108,6 @@ class-map match-any system-cpp-police-system-critical
   description System Critical
 !
 policy-map system-cpp-policy
-policy-map port_child_policy
- class non-client-nrt-class
-  bandwidth remaining ratio 10
 !
 !
 !
@@ -136,6 +121,12 @@ policy-map port_child_policy
 !
 !
 !
+!
+interface Port-channel1
+ no switchport
+ no ip address
+ ipv6 address 2000::2B5:0:0:15/126
+ ipv6 ospf 1 area 1
 !
 interface GigabitEthernet0/0
  vrf forwarding Mgmt-vrf
@@ -147,19 +138,32 @@ interface GigabitEthernet0/0
 interface GigabitEthernet1/0/1
  no switchport
  no ip address
- ipv6 address 2000::2B5:0:0:26/126
- ipv6 ospf 1 area 2
+ ipv6 address 2000::2B5:0:0:3/126
+ ipv6 ospf 1 area 1
 !
 interface GigabitEthernet1/0/2
- switchport mode trunk
+ no switchport
+ no ip address
+ ipv6 address 2000::2B5:0:0:E/126
+ ipv6 enable
+ ipv6 ospf 1 area 1
 !
 interface GigabitEthernet1/0/3
+ switchport mode trunk
 !
 interface GigabitEthernet1/0/4
 !
 interface GigabitEthernet1/0/5
+ no switchport
+ no ip address
+ ipv6 address 2000:0:0:2B7::1/64
+ ipv6 enable
 !
 interface GigabitEthernet1/0/6
+ no switchport
+ no ip address
+ ipv6 address test-prefix ::1:1/126
+ ipv6 enable
 !
 interface GigabitEthernet1/0/7
 !
@@ -192,10 +196,20 @@ interface GigabitEthernet1/0/20
 interface GigabitEthernet1/0/21
 !
 interface GigabitEthernet1/0/22
+ switchport access vlan 10
+ switchport mode access
 !
 interface GigabitEthernet1/0/23
+ no switchport
+ no ip address
+ channel-protocol lacp
+ channel-group 1 mode active
 !
 interface GigabitEthernet1/0/24
+ no switchport
+ no ip address
+ channel-protocol lacp
+ channel-group 1 mode active
 !
 interface GigabitEthernet1/1/1
 !
@@ -209,46 +223,155 @@ interface Vlan1
  no ip address
  shutdown
 !
-interface Vlan50
+interface Vlan10
  no ip address
- ipv6 address 2000::32:0:0:1/80
+ ipv6 address 2000::A:0:0:2/80
+ ipv6 address autoconfig default
+ vrrp 10 address-family ipv6
+  priority 105
+  track 1 decrement 15
+  address FE80::10:1 primary
+  address 2000::A:0:0:1/80
+  exit-vrrp
 !
-interface Vlan60
+interface Vlan20
  no ip address
- ipv6 address 2000::3C:0:0:1/80
- ipv6 ospf 1 area 2
+ ipv6 address 2000::14:0:0:2/80
+ vrrp 20 address-family ipv6
+  track 1 decrement 15
+  address FE80::20:1 primary
+  address 2000::14:0:0:1/80
+  exit-vrrp
 !
-interface Vlan70
+interface Vlan30
  no ip address
- ipv6 address 2000::46:0:0:1/80
- ipv6 ospf 1 area 2
+ ipv6 address 2000::1E:0:0:2/80
+ vrrp 20 address-family ipv6
+  address FE80::20:1 primary
+  exit-vrrp
+ vrrp 30 address-family ipv6
+  track 1 decrement 15
+  address FE80::30:1 primary
+  address 2000::1E:0:0:1/80
+  exit-vrrp
+!
+interface Vlan40
+ no ip address
+ ipv6 address 2000::28:0:0:2/80
+ vrrp 40 address-family ipv6
+  track 1 decrement 15
+  address FE80::40:1 primary
+  address 2000::28:0:0:1/80
+  exit-vrrp
+!
+interface Vlan80
+ no ip address
+ ipv6 address 2000::50:0:0:2/80
+ vrrp 80 address-family ipv6
+  track 1 decrement 15
+  address FE80::80:1 primary
+  address 2000::50:0:0:1/80
+  exit-vrrp
+!
+interface Vlan90
+ no ip address
+ ipv6 address 2000::5A:0:0:2/80
+ vrrp 90 address-family ipv6
+  track 1 decrement 15
+  address FE80::90:1 primary
+  address 2000::5A:0:0:1/80
+  exit-vrrp
+!
+interface Vlan100
+ no ip address
+ ipv6 address 2000::64:0:0:2/80
+ vrrp 100 address-family ipv6
+  track 1 decrement 15
+  address FE80::100:1 primary
+  address 2000::64:0:0:1/80
+  exit-vrrp
 !
 interface Vlan110
  no ip address
- ipv6 address 2000::6E:0:0:1/80
+ vrrp 110 address-family ipv6
+  exit-vrrp
 !
-interface Vlan121
+interface Vlan120
  no ip address
- ipv6 address 2000::79:0:0:1/80
+ ipv6 address 2000::78:0:0:2/80
+ vrrp 120 address-family ipv6
+  track 1 decrement 15
+  address FE80::120:1 primary
+  address 2000::78:0:0:1/80
+  exit-vrrp
 !
-interface Vlan253
+interface Vlan250
  no ip address
- ipv6 address 2000::FD:0:0:1/80
+ ipv6 address 2000::FA:0:0:2/80
+ vrrp 250 address-family ipv6
+  track 1 decrement 15
+  address FE80::250:1 primary
+  address 2000::FA:0:0:1/80
+  exit-vrrp
+!
+interface Vlan251
+ no ip address
+ ipv6 address 2000::FB:0:0:2/80
+ vrrp 251 address-family ipv6
+  track 1 decrement 15
+  address FE80::251:1 primary
+  address 2000::FB:0:0:1/80
+  exit-vrrp
+!
+interface Vlan300
+ no ip address
+ ipv6 address 2000::12C:0:0:2/80
+ vrrp 11 address-family ipv6
+  track 1 decrement 15
+  address FE80::300:1 primary
+  address 2000::12C:0:0:1/80
+  exit-vrrp
+!
+interface Vlan691
+ no ip address
+ ipv6 address 2000::2B3:0:0:2/80
+ vrrp 12 address-family ipv6
+  track 1 decrement 15
+  address FE80::691:1 primary
+  address 2000::2B3:0:0:1/80
+  exit-vrrp
+ --More--
+*Apr  4 15:26:37.620: IPv6 DHCP: Source Address from SAS FE80::2EA:BDFF:FE5A:8E46
+*Apr  4 15:26:37.621: IPv6 DHCP: IPv6 not ready on GigabitEthernet1/0/5, message not sent
+!
+interface Vlan692
+ no ip address
+ ipv6 address 2000::2B4:0:0:2/80
+ vrrp 13 address-family ipv6
+  priority 105
+  track 1 decrement 15
+  address FE80::692:1 primary
+  address 2000::2B4:0:0:1/80
+  exit-vrrp
 !
 ip forward-protocol nd
 ip http server
 ip http authentication local
 ip http secure-server
-ip ssh version 2
 !
 !
 !
-ipv6 route ::/0 2000::2B5:0:0:27
+ipv6 route ::/0 2000::2B5:0:0:2
 ipv6 router ospf 1
- router-id 2.1.0.0
+ router-id 1.1.0.0
 !
 !
 !
+!
+ipv6 access-list JazzHQ
+ permit icmp 2000::A:0:0:0/80 2000::3C:0:0:0/80
+ sequence 40 permit ipv6 2000::5A:0:0:0/80 2000::/64
+ permit icmp 2000::/64 2110::/64
 !
 control-plane
  service-policy input system-cpp-policy
@@ -261,34 +384,19 @@ line con 0
 line aux 0
  stopbits 1
 line vty 0 4
- login local
- transport input ssh
+ login
 line vty 5 15
  login
 !
 !
 mac address-table notification mac-move
 wsma agent exec
- profile httplistener
- profile httpslistener
 !
 wsma agent config
- profile httplistener
- profile httpslistener
 !
 wsma agent filesys
- profile httplistener
- profile httpslistener
 !
 wsma agent notify
- profile httplistener
- profile httpslistener
 !
-!
-wsma profile listener httplistener
- transport http
-!
-wsma profile listener httpslistener
- transport https
 !
 end
