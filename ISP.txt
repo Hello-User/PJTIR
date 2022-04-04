@@ -1,6 +1,6 @@
-Current configuration : 3816 bytes
+Current configuration : 3815 bytes
 !
-! Last configuration change at 10:11:21 UTC Mon Apr 4 2022
+! Last configuration change at 19:20:07 UTC Mon Apr 4 2022
 !
 version 16.9
 service timestamps debug datetime msec
@@ -151,7 +151,7 @@ ip http secure-server
 ip tftp source-interface GigabitEthernet0
 !
 !
-ipv6 route 2000::46:0:0:0:0/64 2000::2B5:0:0:1E
+ipv6 route 2000:0:0:46::/64 2000::2B5:0:0:1E
 ipv6 route 2000::/56 2000::2B5:0:0:1A
 !
 !
