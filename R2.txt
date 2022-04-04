@@ -1,5 +1,7 @@
 
-! Last configuration change at 15:45:31 UTC Mon Apr 4 2022
+Current configuration : 4445 bytes
+!
+! Last configuration change at 21:06:50 UTC Mon Apr 4 2022
 !
 version 16.9
 service timestamps debug datetime msec
@@ -41,10 +43,25 @@ subscriber templating
 !
 !
 !
+vtp domain HQVTP
+vtp mode off
 !
 ipv6 unicast-routing
+ipv6 dhcp pool dhcp-pool
+ dns-server 2000:0:0:2B4::53
+ domain-name pjtir.local
 !
 multilink bundle-name authenticated
+!
+flow record R2
+ match ipv6 destination address
+ match flow cts source group-tag
+ match flow cts destination group-tag
+!
+!
+flow exporter R2-ex
+ destination 2000:0:0:2B4::55
+!
 !
 !
 !
@@ -123,12 +140,14 @@ interface GigabitEthernet0/0/0
  negotiation auto
  ipv6 address 2000::2B5:0:0:D/126
  ipv6 enable
+ ipv6 nd other-config-flag
+ ipv6 dhcp server dhcp-pool
  ipv6 ospf 1 area 1
 !
 interface GigabitEthernet0/0/1
  no ip address
  negotiation auto
- ipv6 address 2000::2B4:0:0:0:1/64
+ ipv6 address 2000:0:0:2B4::1/64
  ipv6 ospf 1 area 1
 !
 interface GigabitEthernet0/0/2
@@ -153,12 +172,11 @@ ip tftp source-interface GigabitEthernet0
 !
 ip ssh version 2
 !
+ipv6 local pool TapHQ 2000::1:0:0:0/80 80
+ipv6 local pool GLOBAL_POOL 2000::/56 60
+ipv6 local pool testpool 2001::/64 80
 ipv6 router ospf 1
  router-id 1.0.0.2
-!
-!
-!
-!
 !
 !
 !
@@ -167,7 +185,7 @@ snmp-server community pjtir_ro RO
 !
 !
 ipv6 access-list SNMPtest
- permit ipv6 2000::/64 any
+ permit ipv6 2000::/80 any
 !
 control-plane
 !
