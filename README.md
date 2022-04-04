@@ -1,2 +1,2 @@
-# No bitches?
+# No Configs?
 Indeed
