@@ -1,7 +1,6 @@
-
-Current configuration : 4445 bytes
+Current configuration : 4907 bytes
 !
-! Last configuration change at 21:06:50 UTC Mon Apr 4 2022
+! Last configuration change at 17:31:10 UTC Tue Apr 5 2022
 !
 version 16.9
 service timestamps debug datetime msec
@@ -47,20 +46,48 @@ vtp domain HQVTP
 vtp mode off
 !
 ipv6 unicast-routing
-ipv6 dhcp pool dhcp-pool
- dns-server 2000:0:0:2B4::53
- domain-name pjtir.local
-!
 multilink bundle-name authenticated
 !
 flow record R2
  match ipv6 destination address
  match flow cts source group-tag
  match flow cts destination group-tag
+ match transport tcp acknowledgement-number
+ match interface output
+ match flow direction
+ collect timestamp absolute first
+ collect interface input
+!
+!
+flow record RECORD1
+ match ipv6 destination address
+ match transport icmp ipv6 code
+ match interface output
+ match flow direction
+ collect interface input
 !
 !
 flow exporter R2-ex
- destination 2000:0:0:2B4::55
+ transport udp 67
+!
+!
+flow exporter EXPORTER1
+ destination 2000::A:5128:A364:C6D2:B9F1
+ transport udp 67
+ export-protocol ipfix
+!
+!
+flow monitor R2-mon
+ exporter R2-ex
+ record R2
+!
+!
+flow monitor MONITOR1
+ exporter EXPORTER1
+ record RECORD1
+!
+sampler R2-sampler
+ mode random 1 out-of 2
 !
 !
 !
@@ -138,6 +165,7 @@ redundancy
 interface GigabitEthernet0/0/0
  no ip address
  negotiation auto
+ ipv6 flow monitor MONITOR1 unicast output
  ipv6 address 2000::2B5:0:0:D/126
  ipv6 enable
  ipv6 nd other-config-flag
@@ -153,6 +181,8 @@ interface GigabitEthernet0/0/1
 interface GigabitEthernet0/0/2
  no ip address
  negotiation auto
+ ipv6 address 2000::2B5:0:0:AB61/126
+ ipv6 ospf 1 area 1
 !
 interface Serial0/1/0
  no ip address
@@ -172,9 +202,6 @@ ip tftp source-interface GigabitEthernet0
 !
 ip ssh version 2
 !
-ipv6 local pool TapHQ 2000::1:0:0:0/80 80
-ipv6 local pool GLOBAL_POOL 2000::/56 60
-ipv6 local pool testpool 2001::/64 80
 ipv6 router ospf 1
  router-id 1.0.0.2
 !
