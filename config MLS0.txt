@@ -1,6 +1,6 @@
-
+Current configuration : 8040 bytes
 !
-! Last configuration change at 20:18:56 UTC Mon Apr 4 2022
+! Last configuration change at 12:32:51 UTC Tue Apr 5 2022
 !
 version 16.6
 no service pad
@@ -82,7 +82,7 @@ class-map match-any system-cpp-police-sw-forward
 class-map match-any system-cpp-default
   description DHCP Snooping, EWLC control, EWCL data
 class-map match-any system-cpp-police-sys-data
-  description Learning cache ovfl, Crypto Control, Exception, EGR Exception, NFL                                                                                                              SAMPLED DATA, Gold Pkt,
+  description Learning cache ovfl, Crypto Control, Exception, EGR Exception, NFL                                                                                                                                                                                                                                                                                                                                        SAMPLED DATA, Gold Pkt,
 class-map match-any system-cpp-police-punt-webauth
   description Punt Webauth
 class-map match-any system-cpp-police-l2lvx-control
@@ -125,6 +125,10 @@ policy-map system-cpp-policy
 !
 !
 interface Port-channel1
+ no switchport
+ no ip address
+ ipv6 address 2000::2B5:0:0:15/126
+ ipv6 ospf 1 area 1
 !
 interface GigabitEthernet0/0
  vrf forwarding Mgmt-vrf
@@ -143,7 +147,9 @@ interface GigabitEthernet1/0/2
  no switchport
  no ip address
  ipv6 address 2000::2B5:0:0:E/126
+ ipv6 address autoconfig
  ipv6 enable
+ ipv6 dhcp client request vendor
  ipv6 ospf 1 area 1
 !
 interface GigabitEthernet1/0/3
