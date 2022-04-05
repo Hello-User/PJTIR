@@ -1,6 +1,6 @@
-Current configuration : 7709 bytes
+Current configuration : 7782 bytes
 !
-! Last configuration change at 17:59:11 UTC Mon Apr 4 2022
+! Last configuration change at 14:10:42 UTC Tue Apr 5 2022
 !
 version 16.6
 no service pad
@@ -367,9 +367,10 @@ ipv6 router ospf 1
 !
 ipv6 access-list JazzHQ
  permit icmp 2000::A:0:0:0/80 2000::3C:0:0:0/80
- permit icmp 2000::A:0:0:0/80 2110::/64
- permit ipv6 2000::5A:0:0:0/80 2000::/64
+ sequence 30 permit ipv6 2000::5A:0:0:0/80 2000::/64
  permit icmp 2000::/64 2110::/64
+ sequence 60 permit icmp 2000::/64 host 2000:0:0:2B4::53
+ permit tcp 2000::/64 host 2000:0:0:2B4::53
 !
 control-plane
  service-policy input system-cpp-policy
