@@ -1,5 +1,9 @@
+Building configuration...
+
+
+Current configuration : 2841 bytes
 !
-! Last configuration change at 19:10:14 UTC Mon Apr 4 2022
+! Last configuration change at 16:11:44 UTC Tue Apr 5 2022
 !
 version 16.7
 service timestamps debug datetime msec
@@ -107,6 +111,11 @@ crypto ipsec profile profile1
 !
 !
 !
+interface Loopback0
+ no ip address
+ ipv6 address 2000:0:0:2B3::5/64
+ ipv6 ospf 1 area 1
+!
 interface Tunnel0
  no ip address
  ipv6 address 2000::2B5:0:0:22/126
@@ -132,10 +141,11 @@ interface GigabitEthernet0/0/1
 interface GigabitEthernet0/0/2
  no ip address
  negotiation auto
+ ipv6 address 2000::2B5:0:0:1A/126
+ ipv6 traffic-filter InternetHQ in
 !
 interface Serial0/1/0
  no ip address
- ipv6 address 2000::2B5:0:0:1A/126
 !
 interface Serial0/1/1
  no ip address
@@ -155,10 +165,17 @@ ip ssh version 2
 ipv6 route ::/0 2000::2B5:0:0:19
 ipv6 router ospf 1
  router-id 1.0.0.0
+ default-information originate
 !
 !
 !
 !
+!
+ipv6 access-list InternetHQ
+ permit icmp 2110::/64 2000:0:0:2B3::/64
+ sequence 50 permit icmp any any echo-reply
+ deny ipv6 2110::/64 any
+ permit ipv6 any any
 !
 control-plane
 !
