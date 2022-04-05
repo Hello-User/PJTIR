@@ -2,7 +2,7 @@ Building configuration...
 
 Current configuration : 5477 bytes
 !
-! Last configuration change at 19:17:05 UTC Mon Apr 4 2022
+! Last configuration change at 15:45:25 UTC Tue Apr 5 2022
 !
 version 16.6
 no service pad
@@ -22,6 +22,8 @@ vrf definition Mgmt-vrf
  address-family ipv6
  exit-address-family
 !
+ --More--
+*Apr  5 15:45:25.256: %SYS-5-CONFIG_I: Configured from console by console
 !
 no aaa new-model
 switch 1 provision ws-c3650-24ts
