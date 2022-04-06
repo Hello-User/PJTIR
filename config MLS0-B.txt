@@ -1,8 +1,6 @@
-Building configuration...
-
-Current configuration : 5477 bytes
+Current configuration : 5444 bytes
 !
-! Last configuration change at 15:45:25 UTC Tue Apr 5 2022
+! Last configuration change at 09:51:42 UTC Wed Apr 6 2022 by cisco
 !
 version 16.6
 no service pad
@@ -22,8 +20,6 @@ vrf definition Mgmt-vrf
  address-family ipv6
  exit-address-family
 !
- --More--
-*Apr  5 15:45:25.256: %SYS-5-CONFIG_I: Configured from console by console
 !
 no aaa new-model
 switch 1 provision ws-c3650-24ts
@@ -70,7 +66,6 @@ username cisco privilege 15 password 0 cisco
 redundancy
  mode sso
 !
-hw-switch switch 1 logging onboard message
 !
 vlan 10
  name ten
