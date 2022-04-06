@@ -1,5 +1,6 @@
+Current configuration : 6671 bytes
 !
-! Last configuration change at 05:19:19 UTC Mon Mar 1 1993
+! Last configuration change at 01:19:35 UTC Mon Mar 1 1993
 !
 version 15.2
 no service pad
@@ -69,7 +70,6 @@ crypto pki certificate chain TP-self-signed-1859573888
   2E24C465 1C9D8A83 23B7C444 9304886A 2D8BBBC3 A82FE11A 981A1BBD A7EB4992
   C14F826E 535571D2 1849EC58 8C98C8
         quit
-identity profile default
 service-template webauth-global-inactive
  inactivity-timer 3600
 service-template DEFAULT_LINKSEC_POLICY_MUST_SECURE
@@ -83,8 +83,8 @@ spanning-tree extend system-id
 !
 spanning-tree mst configuration
  name HQ
- instance 1 vlan 10
- instance 2 vlan 20-692
+ instance 1 vlan 10-90
+ instance 2 vlan 91-692
 !
 !
 vlan internal allocation policy ascending
@@ -128,32 +128,6 @@ vlan 691
 vlan 692
  name Servers
 !
-!
-class-map type control subscriber match-all AAA_SVR_DOWN_AUTHD_HOST
- match result-type aaa-timeout
- match authorization-status authorized
-!
-class-map type control subscriber match-all AAA_SVR_DOWN_UNAUTHD_HOST
- match result-type aaa-timeout
- match authorization-status unauthorized
-!
-class-map type control subscriber match-all DOT1X
- match method dot1x
-!
-class-map type control subscriber match-all DOT1X_FAILED
- match method dot1x
- match result-type method dot1x authoritative
-!
-class-map type control subscriber match-all DOT1X_MEDIUM_PRIO
- match authorizing-method-priority gt 20
-!
-class-map type control subscriber match-all DOT1X_NO_RESP
- match method dot1x
- match result-type method dot1x agent-not-found
-!
-class-map type control subscriber match-all DOT1X_TIMEOUT
- match method dot1x
- match result-type method dot1x method-timeout
 !
 !
 !
@@ -204,11 +178,16 @@ interface FastEthernet0/2
 interface FastEthernet0/3
  switchport access vlan 300
  switchport mode access
+ switchport port-security violation  restrict
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b4b6.86ef.03d0
+ switchport port-security
  spanning-tree portfast
 !
 interface FastEthernet0/4
  switchport access vlan 10
  switchport mode access
+ spanning-tree portfast
 !
 interface FastEthernet0/5
  switchport access vlan 10
@@ -217,6 +196,8 @@ interface FastEthernet0/5
 !
 interface FastEthernet0/6
  switchport access vlan 10
+ switchport mode access
+ spanning-tree portfast
 !
 interface FastEthernet0/7
  shutdown
@@ -264,7 +245,9 @@ interface FastEthernet0/21
  shutdown
 !
 interface FastEthernet0/22
- shutdown
+ switchport access vlan 10
+ switchport mode access
+ spanning-tree portfast
 !
 interface FastEthernet0/23
  switchport mode access
@@ -312,7 +295,6 @@ ip http secure-server
 ip ssh version 2
 !
 !
-ipv6 radius source-interface GigabitEthernet0/1
 !
 radius server radius
  address ipv6 2000:0:0:2B4::53 auth-port 1645 acct-port 1646
