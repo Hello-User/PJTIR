@@ -47,6 +47,10 @@ vtp domain HQVTP
 vtp mode off
 !
 ipv6 unicast-routing
+ipv6 dhcp pool dhcp-pool
+ dns-server 2000:0:0:2B4::53
+ domain-name pjtir.local
+!
 multilink bundle-name authenticated
 !
 flow record R2
